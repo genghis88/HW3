@@ -4,7 +4,7 @@ SearchEngine
 ============
 1. URL to DocID mapping
 2. Page Rank
-    Store files comlun-wise (inlinks).
+    Store files comlun-wise (inlinks). (ask prof. if the links considered are only wiki links within the corpus documents)
     Create an in-memeory map: key-docid value-number of outlinks
     file to store page ranks
     
