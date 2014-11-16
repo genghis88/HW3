@@ -14,31 +14,31 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
  * @author congyu
  */
 public abstract class LogMiner {
-  // Options to configure each concrete LogMiner.
-  protected Options _options = null;
-  
-  public LogMiner(Options options) {
-    _options = options;
-  }
+	// Options to configure each concrete LogMiner.
+	protected Options _options = null;
 
-  // Computes the desired measure based on the log and store the results to be
-  // used by the load function below.
-  public abstract void compute() throws IOException;
+	public LogMiner(Options options) {
+		_options = options;
+	}
 
-  // Loads the stored mining results computed by the compute function above.
-  // Called during indexing mode.
-  public abstract Object load() throws IOException;
+	// Computes the desired measure based on the log and store the results to be
+	// used by the load function below.
+	public abstract void compute() throws IOException;
 
-  /**
-   * All LogMiners must be created through this factory class based on
-   * the provided {@code options}.
-   */
-  public static class Factory {
-    public static LogMiner getLogMinerByOption(Options options) {
-      if (options._logMinerType.equals("numviews")) {
-        return new LogMinerNumviews(options);
-      }
-      return null;
-    }
-  }
+	// Loads the stored mining results computed by the compute function above.
+	// Called during indexing mode.
+	public abstract Object load() throws IOException;
+
+	/**
+	 * All LogMiners must be created through this factory class based on the
+	 * provided {@code options}.
+	 */
+	public static class Factory {
+		public static LogMiner getLogMinerByOption(Options options) {
+			if (options._logMinerType.equals("numviews")) {
+				return new LogMinerNumviews(options);
+			}
+			return null;
+		}
+	}
 }
