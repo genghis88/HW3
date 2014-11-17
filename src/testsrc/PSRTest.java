@@ -125,6 +125,6 @@ public class PSRTest {
     Query q = new Query("cricket");
     PseudoRelevanceFeedback prf = new PseudoRelevanceFeedback(q, 10, 10);
     Map<String,Double> termSortedMap = prf.getExpandedTerms(vector);
-    System.out.println(termSortedMap);
+    //System.out.println(termSortedMap);
   }
 }
