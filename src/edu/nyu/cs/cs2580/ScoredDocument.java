@@ -6,7 +6,7 @@ package edu.nyu.cs.cs2580;
  * @author fdiaz
  * @author congyu
  */
-class ScoredDocument implements Comparable<ScoredDocument> {
+public class ScoredDocument implements Comparable<ScoredDocument> {
 	private Document _doc;
 	public Document get_doc() {
     return _doc;
