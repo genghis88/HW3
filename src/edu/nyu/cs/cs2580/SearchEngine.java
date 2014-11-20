@@ -187,11 +187,13 @@ public class SearchEngine {
         SearchEngine.OPTIONS);
     Check(analyzer != null,
         "Analyzer " + SearchEngine.OPTIONS._corpusAnalyzerType + " not found!");
+    
     System.out.println("generating link map");
+    
     LinkDocIDMapGenerator.generateMap(SearchEngine.OPTIONS._corpusPrefix);
-    System.out.println("preparing....");
+    
     analyzer.prepare();
-    System.out.println("comparing....");
+    
     analyzer.compute();
 
     LogMiner miner = LogMiner.Factory.getLogMinerByOption(SearchEngine.OPTIONS);

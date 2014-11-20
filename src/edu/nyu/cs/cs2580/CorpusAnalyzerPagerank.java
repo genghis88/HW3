@@ -1,19 +1,18 @@
 package edu.nyu.cs.cs2580;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
@@ -27,7 +26,8 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
   private ArrayList<Double> pagerank = new ArrayList<Double>();
   private Map<String, Integer> linkdocid_map = null;
 
-  private HashMap<Integer, BufferedWriter> file_handles = new HashMap<Integer, BufferedWriter>();
+  HashMap<Integer, List<Integer>> columns = new HashMap<Integer, List<Integer>>();
+  //private HashMap<Integer, BufferedWriter> file_handles = new HashMap<Integer, BufferedWriter>();
   private int _numdocs = 0;
   
   public CorpusAnalyzerPagerank(Options options) {
@@ -59,7 +59,7 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 
     linkdocid_map = LinkDocIDMapGenerator.get();
 
-    initDirectory();
+    //initDirectory();
     
     HeuristicLinkExtractor le = null;
     final File corpusDirectory = new File(_options._corpusPrefix);
@@ -81,15 +81,15 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
     	_numdocs++;
     }
 	
-	for( int i : file_handles.keySet())
-	{
-		if(file_handles.containsKey(i))
-			if(file_handles.get(i) != null)
-			{
-				BufferedWriter bw = file_handles.get(i);
-				bw.close();
-			}
-	}
+//	for( int i : file_handles.keySet())
+//	{
+//		if(file_handles.containsKey(i))
+//			if(file_handles.get(i) != null)
+//			{
+//				BufferedWriter bw = file_handles.get(i);
+//				bw.close();
+//			}
+//	}
     return;
   }
   /**
@@ -179,28 +179,40 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 		for(int linkedDoc : links)
 		{	
 			
-			StringBuffer filestring = new StringBuffer(_options._corpusAnalyzerColPrefix);
-			filestring.append("docid_");
-			filestring.append(linkedDoc);
+//			StringBuffer filestring = new StringBuffer(_options._corpusAnalyzerColPrefix);
+//			filestring.append("docid_");
+//			filestring.append(linkedDoc);
+//			
+//			File file = new File(filestring.toString());
+//			if (!file.exists()) {
+//				file.createNewFile();
+//			}
+//			BufferedWriter bw = null;
+//			if(file_handles.containsKey(linkedDoc))
+//			{
+//				bw = file_handles.get(linkedDoc);
+//			}
+//			else
+//			{
+//				FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+//				bw = new BufferedWriter(fw);
+//				file_handles.put(linkedDoc, bw);
+//			}
+//			bw.write(Integer.toString(docid));
+//			bw.newLine();
+//			bw.flush();	
 			
-			File file = new File(filestring.toString());
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			BufferedWriter bw = null;
-			if(file_handles.containsKey(linkedDoc))
+			if(columns.containsKey(linkedDoc))
 			{
-				bw = file_handles.get(linkedDoc);
+				List<Integer> l = columns.get(linkedDoc);
+				l.add(docid);
 			}
 			else
 			{
-				FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
-				bw = new BufferedWriter(fw);
-				file_handles.put(linkedDoc, bw);
+				List<Integer> l = new ArrayList<Integer>();
+				l.add(docid);
+				columns.put(linkedDoc, l);
 			}
-			bw.write(Integer.toString(docid));
-			bw.newLine();
-			bw.flush();	
 		}
 	}
 	
@@ -239,22 +251,22 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 			{
 				double rank = 0.0;
 				
-				StringBuffer filestring = new StringBuffer(_options._corpusAnalyzerColPrefix);
-				filestring.append("docid_");
-				filestring.append(i);
+//				StringBuffer filestring = new StringBuffer(_options._corpusAnalyzerColPrefix);
+//				filestring.append("docid_");
+//				filestring.append(i);
 				
-				File column = new File(filestring.toString());
-				if(!column.exists())
+//				File column = new File(filestring.toString());
+				if(!columns.containsKey(i))
 				{
 					rank = 1.0 - lambda;
 				}
 				else
 				{
-					Scanner sc = new Scanner(column);
+					Iterator<Integer> sc = columns.get(i).iterator();
 					Set<Integer> col = new HashSet<Integer>();
 					while(sc.hasNext())
 					{
-						int docid = Integer.parseInt(sc.nextLine());
+						int docid = sc.next();
 						col.add(docid);
 					}
 					for(int j = 0; j < noofdocs; j++)
@@ -268,7 +280,6 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 							rank += (pagerank.get(j) * ((lambda / outlinkcount.get(j) + gfactor)));					
 						}
 					}
-					sc.close();
 				}			
 				newpagerank.add(rank);
 			}
