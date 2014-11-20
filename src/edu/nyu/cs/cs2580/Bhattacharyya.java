@@ -65,15 +65,16 @@ public class Bhattacharyya {
           double coeff = 0.0;
           List<ExpandedTerm> queryITerms = queryExpansions.get(queries.get(i));
           List<ExpandedTerm> queryJTerms = queryExpansions.get(queries.get(j));
-          Set<String> allTerms = new HashSet<String>();
-          for(ExpandedTerm eTerm:queryITerms) {
-            if(!allTerms.contains(eTerm.getTerm())) {
-              coeff += Math.sqrt();
+          for(ExpandedTerm eTerm1:queryITerms) {
+            for(ExpandedTerm eTerm2:queryJTerms) {
+              if(eTerm1.getTerm().equals(eTerm2.getTerm())) {
+                coeff += Math.sqrt
+                    (eTerm1.getProbability() * eTerm2.getProbability());
+                break;
+              }
             }
           }
-          for(ExpandedTerm eTerm:queryJTerms) {
-            
-          }
+          writer.write(queries.get(i) + "\t" + queries.get(j) + "\t" + coeff + "\n");
         }
       }
       writer.close();
