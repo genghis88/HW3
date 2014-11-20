@@ -68,7 +68,7 @@ public class Bhattacharyya {
           Set<String> allTerms = new HashSet<String>();
           for(ExpandedTerm eTerm:queryITerms) {
             if(!allTerms.contains(eTerm.getTerm())) {
-              coeff += Math.sqrt(a);
+              coeff += Math.sqrt();
             }
           }
           for(ExpandedTerm eTerm:queryJTerms) {
