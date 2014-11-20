@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 public class PseudoRelevanceFeedback {
   private Query query = null;
   private int numDocs;
