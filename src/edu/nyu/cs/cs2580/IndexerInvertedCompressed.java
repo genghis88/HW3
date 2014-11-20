@@ -9,47 +9,47 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
  */
 public class IndexerInvertedCompressed extends Indexer {
 
-	public IndexerInvertedCompressed(Options options) {
-		super(options);
-		System.out.println("Using Indexer: " + this.getClass().getSimpleName());
-	}
+  public IndexerInvertedCompressed(Options options) {
+    super(options);
+    System.out.println("Using Indexer: " + this.getClass().getSimpleName());
+  }
 
-	@Override
-	public void constructIndex() throws IOException {
-	}
+  @Override
+  public void constructIndex() throws IOException {
+  }
 
-	@Override
-	public void loadIndex() throws IOException, ClassNotFoundException {
-	}
+  @Override
+  public void loadIndex() throws IOException, ClassNotFoundException {
+  }
 
-	@Override
-	public Document getDoc(int docid) {
-		return null;
-	}
+  @Override
+  public Document getDoc(int docid) {
+    return null;
+  }
 
-	/**
-	 * In HW2, you should be using {@link DocumentIndexed}
-	 */
-	@Override
-	public Document nextDoc(Query query, int docid) {
-		return null;
-	}
+  /**
+   * In HW2, you should be using {@link DocumentIndexed}
+   */
+  @Override
+  public Document nextDoc(Query query, int docid) {
+    return null;
+  }
 
-	@Override
-	public int corpusDocFrequencyByTerm(String term) {
-		return 0;
-	}
+  @Override
+  public int corpusDocFrequencyByTerm(String term) {
+    return 0;
+  }
 
-	@Override
-	public int corpusTermFrequency(String term) {
-		return 0;
-	}
+  @Override
+  public int corpusTermFrequency(String term) {
+    return 0;
+  }
 
-	/**
-	 * @CS2580: Implement this to work with your RankerFavorite.
-	 */
-	@Override
-	public int documentTermFrequency(String term, int docid) {
-		return 0;
-	}
+  /**
+   * @CS2580: Implement this to work with your RankerFavorite.
+   */
+  @Override
+  public int documentTermFrequency(String term, int docid) {
+    return 0;
+  }
 }

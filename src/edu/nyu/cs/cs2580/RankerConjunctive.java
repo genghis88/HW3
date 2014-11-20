@@ -15,31 +15,31 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
  */
 public class RankerConjunctive extends Ranker {
 
-	public RankerConjunctive(Options options, CgiArguments arguments,
-			Indexer indexer) {
-		super(options, arguments, indexer);
-		System.out.println("Using Ranker: " + this.getClass().getSimpleName());
-	}
+  public RankerConjunctive(Options options,
+      CgiArguments arguments, Indexer indexer) {
+    super(options, arguments, indexer);
+    System.out.println("Using Ranker: " + this.getClass().getSimpleName());
+  }
 
-	@Override
-	public Vector<ScoredDocument> runQuery(Query query, int numResults) {
-		Queue<ScoredDocument> rankQueue = new PriorityQueue<ScoredDocument>();
-		Document doc = null;
-		int docid = -1;
-		while ((doc = _indexer.nextDoc(query, docid)) != null) {
-			rankQueue.add(new ScoredDocument(doc, 1.0));
-			if (rankQueue.size() > numResults) {
-				rankQueue.poll();
-			}
-			docid = doc._docid;
-		}
+  @Override
+  public Vector<ScoredDocument> runQuery(Query query, int numResults) {
+    Queue<ScoredDocument> rankQueue = new PriorityQueue<ScoredDocument>();
+    Document doc = null;
+    int docid = -1;
+    while ((doc = _indexer.nextDoc(query, docid)) != null) {
+      rankQueue.add(new ScoredDocument(doc, 1.0));
+      if (rankQueue.size() > numResults) {
+        rankQueue.poll();
+      }
+      docid = doc._docid;
+    }
 
-		Vector<ScoredDocument> results = new Vector<ScoredDocument>();
-		ScoredDocument scoredDoc = null;
-		while ((scoredDoc = rankQueue.poll()) != null) {
-			results.add(scoredDoc);
-		}
-		Collections.sort(results, Collections.reverseOrder());
-		return results;
-	}
+    Vector<ScoredDocument> results = new Vector<ScoredDocument>();
+    ScoredDocument scoredDoc = null;
+    while ((scoredDoc = rankQueue.poll()) != null) {
+      results.add(scoredDoc);
+    }
+    Collections.sort(results, Collections.reverseOrder());
+    return results;
+  }
 }
