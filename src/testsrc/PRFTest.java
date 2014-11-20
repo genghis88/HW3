@@ -12,7 +12,7 @@ import edu.nyu.cs.cs2580.PseudoRelevanceFeedback;
 import edu.nyu.cs.cs2580.ScoredDocument;
 import edu.nyu.cs.cs2580.Document;
 
-public class PSRTest {
+public class PRFTest {
   public static void main(String[] args) {
     Vector<ScoredDocument> vector = new Vector<ScoredDocument>();
     for(int i=0;i<10;i++) {
