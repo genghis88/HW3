@@ -6,17 +6,12 @@ package edu.nyu.cs.cs2580;
  * @author fdiaz
  * @author congyu
  */
-<<<<<<< HEAD
-class ScoredDocument implements Comparable<ScoredDocument> {
-  private Document _doc;
-  private double _score;
-=======
 public class ScoredDocument implements Comparable<ScoredDocument> {
 	private Document _doc;
+  private double _score;
 	public Document get_doc() {
     return _doc;
   }
->>>>>>> origin/master
 
   public ScoredDocument(Document doc, double score) {
     _doc = doc;
