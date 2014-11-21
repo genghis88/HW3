@@ -325,7 +325,7 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 	
 	public String getRedirectLink(String outlinktitle) throws IOException
 	{
-		File f = new File(_options._indexPrefix + "/" + outlinktitle);
+		File f = new File(_options._corpusPrefix +"/"+ outlinktitle);
 		
 		if(f.exists())
 		{
