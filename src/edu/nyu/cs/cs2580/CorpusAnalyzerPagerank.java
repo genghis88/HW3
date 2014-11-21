@@ -78,7 +78,7 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
     	{
     		if(linkdocid_map.containsKey(outlinktitle))
     		{
-    			String redirect = getRedirectLink(outlinktitle);
+    			String redirect = outlinktitle;
     			
     			if(linkdocid_map.containsKey(redirect))
         		{
