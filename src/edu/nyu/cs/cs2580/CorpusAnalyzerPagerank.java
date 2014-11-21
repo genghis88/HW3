@@ -14,6 +14,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
 
@@ -29,9 +34,10 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
   HashMap<Integer, List<Integer>> columns = new HashMap<Integer, List<Integer>>();
   //private HashMap<Integer, BufferedWriter> file_handles = new HashMap<Integer, BufferedWriter>();
   private int _numdocs = 0;
-  
+  Pattern p;
   public CorpusAnalyzerPagerank(Options options) {
     super(options);
+    p = Pattern.compile("0; url=+(.+).*");
   }
 
   /**
@@ -72,8 +78,13 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
     	{
     		if(linkdocid_map.containsKey(outlinktitle))
     		{
-    			int linkid = linkdocid_map.get(outlinktitle);
-    			outlinks.add(linkid);
+    			String redirect = getRedirectLink(outlinktitle);
+    			
+    			if(linkdocid_map.containsKey(redirect))
+        		{
+    				int linkid = linkdocid_map.get(redirect);
+        			outlinks.add(linkid);
+        		}
     		}
     	}
     	outlinkcount.put(docid, outlinks.size());
@@ -310,4 +321,34 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 		pagerank = (ArrayList<Double>) reader.readObject();
 		reader.close();
 	} 
+
+	
+	public String getRedirectLink(String outlinktitle) throws IOException
+	{
+		File f = new File(_options._indexPrefix + "/" + outlinktitle);
+		
+		if(f.exists())
+		{
+			Matcher m;
+			org.jsoup.nodes.Document doc = Jsoup.parse(f, "UTF-8");
+			Elements metalinks = doc.select("meta[http-equiv=\"refresh\"]");
+	        if(metalinks.size() != 0)
+	        {
+	        	m = p.matcher(metalinks.attr("content"));
+	        	if (m.find()) {
+	    		    return getRedirectLink(m.group(1));
+	        	}
+	        	else
+	        		return null;
+	        }
+	        else
+	        {
+	        	return outlinktitle;
+	        }       	
+		}
+		else
+		{
+			return null;
+		}
+	}
 }

@@ -16,6 +16,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 public class pageranktest {
 
@@ -295,15 +300,23 @@ public class pageranktest {
 //		test.retrievePageRank();
 //		System.out.println(test.pagerank);
 		
-		String prFile = "data/index/"+"corpus.pr";
-		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(prFile));
-		ArrayList<Double>pagerank = (ArrayList<Double>) reader.readObject();
-		reader.close();
-		System.out.println(pagerank.size());
-		for( int i = 0; i < 10; i++)
-		{
-			System.out.println(pagerank.get(i));
+//		String prFile = "data/index/"+"corpus.pr";
+//		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(prFile));
+//		ArrayList<Double>pagerank = (ArrayList<Double>) reader.readObject();
+//		reader.close();
+//		System.out.println(pagerank.size());
+//		for( int i = 0; i < 10; i++)
+//		{
+//			System.out.println(pagerank.get(i));
+//		}
+		
+		Pattern p = Pattern.compile("0; url=+(.+).*");
+		Matcher m = p.matcher("0; url=Symphony_No._5_(Beethoven).html");
+
+		if (m.find()) {
+		    System.out.println(m.group(1));
 		}
+		checkRedirectLink("Symphony_No._5_(Beethoven)");
 	}
 
 	
@@ -313,5 +326,51 @@ public class pageranktest {
 	 3	1	0	0	0
 	 4  0.5	0.5	0	0
 	 */
-	 
+	public static String checkRedirectLink(String outlinktitle) throws IOException
+	{
+		Pattern p = Pattern.compile("0; url=+(.+).*");
+		Matcher m;
+		final File corpusDirectory = new File("data/wiki/");
+		for (final File fileEntry : corpusDirectory.listFiles()) {
+		      if (!fileEntry.isDirectory()) {
+
+		        org.jsoup.nodes.Document doc = Jsoup.parse(fileEntry, "UTF-8");
+		        Elements metalinks = doc.select("meta[http-equiv=\"refresh\"]");
+		        if(metalinks.size() != 0)
+		        {
+		        	m = p.matcher(metalinks.attr("content"));
+		        	if (m.find()) {
+		    		    System.out.println(m.group(1));
+		    		}
+		        }
+		      }
+		}
+		
+		return null;
+	}
+	
+	static Pattern p = Pattern.compile("0; url=+(.+).*");
+	static Matcher m;
+	
+	public static String getRedirectLink(String outlinktitle) throws IOException
+	{
+		File f = new File("data/wiki/");
+		org.jsoup.nodes.Document doc = Jsoup.parse(f, "UTF-8");
+		Elements metalinks = doc.select("meta[http-equiv=\"refresh\"]");
+        if(metalinks.size() != 0)
+        {
+        	m = p.matcher(metalinks.attr("content"));
+        	if (m.find()) {
+    		    return getRedirectLink(m.group(1));
+        	}
+        	else
+        		return null;
+        }
+        else
+        {
+        	return outlinktitle;
+        }       	
+	}
+
 }
+
