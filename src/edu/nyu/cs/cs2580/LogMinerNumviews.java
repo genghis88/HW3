@@ -26,7 +26,7 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
 public class LogMinerNumviews extends LogMiner {
 
   private Map<String, Integer> linkdocid_map = null; 	
-  ArrayList<Integer> numviews = null;
+  ArrayList<Double> numviews = null;
   
   public LogMinerNumviews(Options options) {
     super(options);
@@ -54,11 +54,13 @@ public class LogMinerNumviews extends LogMiner {
 	FileWriter fw = new FileWriter(file.getAbsoluteFile());
 	
 	BufferedWriter bw = new BufferedWriter(fw);
+	
+	int totalNumViews = 0;
 
 	//Map<String, Integer> map = LinkDocIDMapGenerator.get();
-	numviews = new ArrayList<Integer>(linkdocid_map.size());
+	numviews = new ArrayList<Double>(linkdocid_map.size());
 	for (int i = 0; i < linkdocid_map.size(); i++) {
-		  numviews.add(0);
+		  numviews.add(0.0);
 	}
 	
 	File f = new File("data/log/20140601-160000.log");
@@ -97,6 +99,7 @@ public class LogMinerNumviews extends LogMiner {
 			{
 				int docid = linkdocid_map.get(link);
 				numviews.set(docid, numviews.get(docid) + numview);
+				totalNumViews += numview;
 			}
 		}
 		catch(Exception e)
@@ -118,6 +121,11 @@ public class LogMinerNumviews extends LogMiner {
 	bw.close();
 	sc.close();
 
+	for(int i=0;i<numviews.size();i++) {
+	  double dNumView = numviews.get(i) * 1.0/totalNumViews;
+	  numviews.set(i, dNumView);
+	}
+	
 	storeNumView();
 	
     return;
@@ -168,7 +176,7 @@ public class LogMinerNumviews extends LogMiner {
 	{
 		String nvFile = _options._indexPrefix + _options._logMinerNvName;
 		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
-		numviews = (ArrayList<Integer>) reader.readObject();
+		numviews = (ArrayList<Double>) reader.readObject();
 		reader.close();
 	} 
 
