@@ -165,7 +165,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    posInPostingList = null;
 	    lastDocInserted = null;
 	    
-	    System.gc();
+	    //System.gc();
 	    String indexFile = _options._indexPrefix + "doc.list";
 	    System.out.println("Store index to: " + indexFile);
 	    ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(indexFile));
@@ -337,13 +337,13 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    		if(docid % 1000 == 0)
 	    		{
 	    			System.out.println(docid);
-	    			System.gc();
+	    			//System.gc();
 	    		}
-	    		if(docid % 300 == 0)
-	    			Thread.sleep(100);
+	    		/*if(docid % 300 == 0)
+	    			//Thread.sleep(100);*/
 	    			processDocument(docid, sb.toString().toLowerCase());        
 	    	}
-	    }    
+	    }
   	}
 	
 	private int createDocument(String title, String url)
