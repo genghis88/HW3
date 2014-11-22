@@ -9,8 +9,6 @@ log_prefix: data/log
 ## Index location: data required for serve mode can only be loaded from here. 
 index_prefix: data/index/
 
-skip: 100
-
 ## Additional group-specific options can be added
 ## below. Each options must have a key and a value,
 ## separated by ":".  Lines starting with "#" are ignored.
