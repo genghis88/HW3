@@ -279,6 +279,9 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    final File corpusDirectory = new File(corpusDirectoryString);
 	    int i = 0;
 	    
+	    PorterStemming stemmer = new PorterStemming();
+	    Stopwords stopwordRemover = new Stopwords();
+	    
 	    for (final File fileEntry : corpusDirectory.listFiles()) 
 	    {
 	    	
@@ -296,8 +299,12 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    		{
 	    			//System.out.println(head.text().trim());
 	    			title = head.text().trim();
-	    			sb.append(title.toLowerCase());
-	    			sb.append(' ');
+	    			String text = stopwordRemover.removeStopWords(title);
+	    			if(text != null) {
+	    			  text = stemmer.stem(text);
+	            sb.append(text);
+	            sb.append(' ');
+	    			}
 	    		}
 	    		Elements content_text = doc.select("div[id=mw-content-text]");
 	    		
@@ -311,8 +318,12 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    				Element firsthead = header.getElementsByClass("mw-headline").first();
 	    				if(firsthead != null) 
 	    				{
-	    					sb.append(firsthead.text());
-	    					sb.append(' ');
+	    				  String text = stopwordRemover.removeStopWords(firsthead.text());
+	              if(text != null) {
+	                text = stemmer.stem(text);
+	                sb.append(text);
+	                sb.append(' ');
+	              }
 	    				}
 	    			}
 	    			for (Element para : paras) 
@@ -320,8 +331,12 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    				//System.out.println(para.text().trim());
 	    				if(para.text() != null) 
 	    				{
-	    					sb.append(para.text());
-	    					sb.append(' ');
+	    				  String text = stopwordRemover.removeStopWords(para.text());
+                if(text != null) {
+                  text = stemmer.stem(text);
+                  sb.append(text);
+                  sb.append(' ');
+                }
 	    				}
 	    			}
 	    		}	
