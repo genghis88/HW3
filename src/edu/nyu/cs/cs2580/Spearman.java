@@ -8,20 +8,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Spearman {
   public static void main(String[] args) throws IOException, ClassNotFoundException {
     String pageRankFile = args[0];
     String numViewsFile = args[1];
-    /*ObjectInputStream reader = new ObjectInputStream(new FileInputStream(pageRankFile));
+    ObjectInputStream reader = new ObjectInputStream(new FileInputStream(pageRankFile));
     final ArrayList<Double> pageranks = (ArrayList<Double>) reader.readObject();
     reader.close();
     reader = new ObjectInputStream(new FileInputStream(numViewsFile));
     final ArrayList<Double> numviews = (ArrayList<Double>) reader.readObject();
-    reader.close();*/
+    reader.close();
     
-    final ArrayList<Double> pageranks = new ArrayList<Double>();
+    /*final ArrayList<Double> pageranks = new ArrayList<Double>();
     final ArrayList<Double> numviews = new ArrayList<Double>();
     pageranks.add(0.2);
     pageranks.add(0.4);
@@ -29,15 +28,17 @@ public class Spearman {
     pageranks.add(0.5);
     pageranks.add(0.1);
     pageranks.add(0.2);
+    pageranks.add(0.6);
     numviews.add(0.1);
     numviews.add(0.2);
     numviews.add(0.3);
     numviews.add(0.4);
     numviews.add(0.5);
     numviews.add(0.1);
+    numviews.add(0.6);
     
     System.out.println(pageranks);
-    System.out.println(numviews);
+    System.out.println(numviews);*/
     
     ArrayList<Integer> rankingOnPR = new ArrayList<Integer>();
     ArrayList<Integer> rankingOnNV = new ArrayList<Integer>();
@@ -81,8 +82,8 @@ public class Spearman {
     Collections.sort(rankingOnPR,cmp1);
     Collections.sort(rankingOnNV,cmp2);
     
-    System.out.println(rankingOnPR);
-    System.out.println(rankingOnNV);
+    //System.out.println(rankingOnPR);
+    //System.out.println(rankingOnNV);
     
     int n = pageranks.size();
     int s = 0;
@@ -91,6 +92,9 @@ public class Spearman {
     }
     double z = s * 1.0/ n;
     //System.out.println(z);
+    
+    //System.out.println(pageranks.size());
+    //System.out.println(numviews.size());
     
     double coefficient = 0.0;
     double numerator = 0.0;
