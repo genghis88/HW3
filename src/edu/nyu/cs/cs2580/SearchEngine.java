@@ -70,13 +70,15 @@ public class SearchEngine {
     public String _logMinerType = null;
 
     // Additional group specific configuration can be added below.
-    public String _corpusAnalyzerColPrefix = null;
+    
     public String _corpusAnalyzerPrName = null;
     public double _lambda = 0.0;
     
     public String _log_file=null;
     public String _logMinerNvName=null;
-   
+    public String _index_file = null;
+    
+    public int skips = 100;
     /**
      * Constructor for options.
      * @param optionFile where all the options must reside
@@ -120,13 +122,14 @@ public class SearchEngine {
       _logMinerType = options.get("log_miner_type");
       Check(_logMinerType != null, "Missing option: log_miner_type!");
       
-      _corpusAnalyzerColPrefix = options.get("corpus_analyzer_column_prefix");
       
       _corpusAnalyzerPrName = options.get("corpus_analyzer_file");
       _lambda = Double.parseDouble(options.get("lambda"));
       
       _log_file = options.get("log_file");
       _logMinerNvName = options.get("log_miner_file");
+      _index_file = options.get("index_file");
+      skips = Integer.parseInt(options.get("skip"));
     }
   }
   public static Options OPTIONS = null;
