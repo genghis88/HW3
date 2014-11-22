@@ -227,28 +227,28 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 		}
 	}
 	
-	public void initDirectory()
-	{
-			File directory = new File(_options._corpusAnalyzerColPrefix);			
-			if(!directory.exists()){
-				 
-		           System.out.println("Directory does not exist.");
-		           directory.mkdir();
-		    }
-			else{	 
-				try{
-					System.out.println("Deleting Directory...");
-					deleteDirectory(directory);
-					System.out.println("Deleting Directory Done");
-					directory.mkdir();
-				}
-				catch(IOException e)
-				{
-					e.printStackTrace();
-		            System.exit(0);
-		        }
-		    }
-	}
+//	public void initDirectory()
+//	{
+//			File directory = new File(_options._corpusAnalyzerColPrefix);			
+//			if(!directory.exists()){
+//				 
+//		           System.out.println("Directory does not exist.");
+//		           directory.mkdir();
+//		    }
+//			else{	 
+//				try{
+//					System.out.println("Deleting Directory...");
+//					deleteDirectory(directory);
+//					System.out.println("Deleting Directory Done");
+//					directory.mkdir();
+//				}
+//				catch(IOException e)
+//				{
+//					e.printStackTrace();
+//		            System.exit(0);
+//		        }
+//		    }
+//	}
 	
 	@SuppressWarnings("unchecked")
 	public void calculatePageRank(int noofdocs, int iter) throws FileNotFoundException
