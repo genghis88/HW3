@@ -9,8 +9,6 @@ log_prefix: data/log
 ## Index location: data required for serve mode can only be loaded from here. 
 index_prefix: data/index/
 
-skip: 100
-
 ## Additional group-specific options can be added
 ## below. Each options must have a key and a value,
 ## separated by ":".  Lines starting with "#" are ignored.
@@ -20,11 +18,6 @@ skip: 100
 ## Use your inverted-compressed indexer for HW3.
 # indexer_type: fullscan
 indexer_type: inverted-compressed
-<<<<<<< HEAD
-=======
-
-index_file: corpus_comp.idx
->>>>>>> becdbb0ab5316504349065f94e42ea7ad9cdf97f
 
 ## Implement the PageRank corpus analyzer for HW3.
 
@@ -32,6 +25,8 @@ corpus_analyzer_type: pagerank
 
 ## Group-Specific Options for pagerank
   
+corpus_analyzer_column_prefix: analyzer/cols/
+corpus_analyzer_pr_prefix: analyzer/pr
 corpus_analyzer_file: pagerank.pr
 lambda: 0.1
 
@@ -39,8 +34,3 @@ lambda: 0.1
 log_miner_type: numviews
 log_file: data/log/20140601-160000.log
 log_miner_file: numviews.nv
-
-
-##
-
-skip: 100
