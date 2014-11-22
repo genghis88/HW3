@@ -311,8 +311,8 @@ public class pageranktest {
 //		}
 		
 		Pattern p = Pattern.compile("0; url=+(.+).*");
-		Matcher m = p.matcher("0; url=Symphony_No._5_(Beethoven).html");
-
+		Matcher m = p.matcher("<p>0; url=Symphony_No._5_(Beethoven).html<p>");
+		p = Pattern.compile("<p>+(.+).* <p>");
 		if (m.find()) {
 		    System.out.println(m.group(1));
 		}

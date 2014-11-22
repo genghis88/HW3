@@ -44,11 +44,6 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    private Compression compress;
 	    private int corpusDocFrequency;
 	    private int corpusTermFrequency;
-	    private SkipPointer sp;
-	    
-	    public SkipPointer getSp() {
-			return sp;
-		}
 
 		public BitSet getBits() {
 			return bits;
@@ -63,7 +58,6 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	      count = 0;
 	      bits = new BitSet();
 	      compress = new GammaCompression();
-	      sp = new SkipPointer();
 	    }
 
 	    public int getCount() {
@@ -128,11 +122,11 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 
 	private Vector<DocumentIndexed> _documents = new Vector<DocumentIndexed>();
 	private HashMap<String,PostingList> index = new HashMap<String,PostingList>();
-	//private HashMap<String,SkipPointer> skipPointerMap = new HashMap<String, SkipPointer>();
+	private HashMap<String,SkipPointer> skippointermap = new HashMap<String, SkipPointer>();
 	
-	private HashMap<String,Integer> skipNumberList = new HashMap<String,Integer>();
-    private HashMap<String,Integer> posInPostingList = new HashMap<String,Integer>();
-    private HashMap<String,Integer> lastDocInserted = new HashMap<String,Integer>();
+	private HashMap<String,Integer> skipnumberlist = new HashMap<String,Integer>();
+    private HashMap<String,Integer> posinpostinglist = new HashMap<String,Integer>();
+    private HashMap<String,Integer> lastdocinserted = new HashMap<String,Integer>();
 	
 	@SuppressWarnings("unused")
 	private long totalWordsInCorpus = 0;
@@ -161,21 +155,22 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	        "Indexed " + Integer.toString(_numDocs) + " docs with " +
 	            Long.toString(_totalTermFrequency) + " terms.");
 
-	    skipNumberList = null;
-	    posInPostingList = null;
-	    lastDocInserted = null;
+	    skipnumberlist.clear();
+	    posinpostinglist.clear();
+	    lastdocinserted.clear();
+	    
+	    skipnumberlist = null;
+	    posinpostinglist = null;
+	    lastdocinserted = null;
 	    
 	    //System.gc();
-	    String indexFile = _options._indexPrefix + "doc.list";
+	    //String indexFile = _options._indexPrefix + "doc.list";
+	    String indexFile = _options._indexPrefix + _options._index_file;
 	    System.out.println("Store index to: " + indexFile);
 	    ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(indexFile));
-	    writer.writeObject(this._documents);
+	    writer.writeObject(this);
 	    writer.close();
-	    
-	    indexFile = _options._indexPrefix + _options._index_file;
-	    writer = new ObjectOutputStream(new FileOutputStream(indexFile));
-	    writer.writeObject(this.index);
-	    writer.close();
+
 	    System.out.println("Index File Created!");
 	    x = (System.currentTimeMillis() - x)/1000/60;
 	    System.out.println("Time to load:" + x + " mins.");
@@ -190,19 +185,16 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    System.out.println("Load index from: " + indexFile);
 	    this.skipSteps = _options.skips;
 	    ObjectInputStream reader = new ObjectInputStream(new FileInputStream(indexFile));
-	    //IndexerInvertedCompressed loaded = (H) reader.readObject();
+	    IndexerInvertedCompressed loaded = (IndexerInvertedCompressed) reader.readObject();
 
-	    //this._documents = loaded._documents;
-	    // Compute numDocs and totalTermFrequency b/c Indexer is not serializable.
-	    //this._numDocs = _documents.size();
-	    //this._totalTermFrequency = loaded._totalTermFrequency;
-	    //this.skipPointerMap = loaded.skipPointerMap;
-	    //this.totalWordsInCorpus = loaded.totalWordsInCorpus;
+	    this._documents = loaded._documents;
+	     //Compute numDocs and totalTermFrequency b/c Indexer is not serializable.
+	    this._numDocs = _documents.size();
+	    this._totalTermFrequency = loaded._totalTermFrequency;
+	    this.skippointermap = loaded.skippointermap;
+	    this.totalWordsInCorpus = loaded.totalWordsInCorpus;
 	    //this.urlToDocId = LinkDocIDMapGenerator.generateMap(_options._corpusPrefix)
-	    this.index = (HashMap<String, IndexerInvertedCompressed.PostingList>)reader.readObject();
-	    reader.close();
-	    reader = new ObjectInputStream(new FileInputStream( _options._indexPrefix + "doc.list"));
-	    this._documents = (Vector<DocumentIndexed>)reader.readObject();
+	    this.index = loaded.index;
 	    reader.close();
 	    x = (System.currentTimeMillis() - x)/1000/60;
 	    System.out.println("Time to load:" + x + " mins.");
@@ -289,7 +281,8 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    
 	    for (final File fileEntry : corpusDirectory.listFiles()) 
 	    {
-	    	if(i == 100)
+	    	
+	    	if(i == 1000)
 	    		break;
 	    	//i++;
 	    	if (!fileEntry.isDirectory()) 
@@ -297,9 +290,8 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    		String url = fileEntry.getAbsolutePath();
 	    		String title = null;
 	    		StringBuilder sb = new StringBuilder();
-	    		org.jsoup.nodes.Document doc = Jsoup.parse(fileEntry, "UTF-8");
+	    		Element doc = Jsoup.parse(fileEntry, "UTF-8").body();
 	    		Element head = doc.select("h1[id=firstHeading]").first();
-	    		
 	    		if(head != null && head.text() != null) 
 	    		{
 	    			//System.out.println(head.text().trim());
@@ -332,8 +324,10 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    					sb.append(' ');
 	    				}
 	    			}
-	    		}	    
+	    		}	
+	    		doc = null;
 	    		int docid = createDocument(title, url);
+	    		processDocument(docid, sb.toString().toLowerCase()); 
 	    		if(docid % 1000 == 0)
 	    		{
 	    			System.out.println(docid);
@@ -341,7 +335,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    		}
 	    		/*if(docid % 300 == 0)
 	    			//Thread.sleep(100);*/
-	    			processDocument(docid, sb.toString().toLowerCase());        
+	    			processDocument(docid, sb.toString().toLowerCase());
 	    	}
 	    }
   	}
@@ -405,6 +399,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    		index.get(word).increaseCorpusTermFreqency();
 	    	else
 	    	{
+	    		
 	    		PostingList p = new PostingList();
 	    		index.put(word, p);
 	    		p.increaseCorpusTermFreqency();
@@ -448,39 +443,42 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 		    }
 		      
 		    int lastdocid = 0;
-		    if(lastDocInserted.containsKey(word)) 
+		    if(lastdocinserted.containsKey(word)) 
 		    {
-		        lastdocid = lastDocInserted.get(word);
+		        lastdocid = lastdocinserted.get(word);
 		    }
 		      
 		    pl.add(docid - lastdocid);
 		    pl.add(postions.size());
 		    pl.add(postions);
 		    
-		    lastDocInserted.put(word, docid);
+		    lastdocinserted.put(word, docid);
 		   
-		    if(skipNumberList.containsKey(word)) 
-		    {
-		        int lastUpdated = skipNumberList.get(word);
-		        if(lastUpdated%skipSteps == 0) 
-		        {
-		        	skipNumberList.put(word, 0);
-		        	SkipPointer skippointer = null;
-		        	skippointer = pl.getSp();
-		        	skippointer.addPointer(docid, pl.getCount());
-		        }
-		        else 
-		        {
-		        	skipNumberList.put(word, lastUpdated);
-		        }
-		        lastUpdated++;
-		    }
-		    else 
-		    {
-		        skipNumberList.put(word, 0);
-		    }       
+		    int lastupdated = 0;
 		    
-		    posInPostingList.put(word, pl.getCount());      
+		    if(skipnumberlist.containsKey(word)) 
+		    {
+		        lastupdated = skipnumberlist.get(word);		        
+		    }    		    
+		    
+	        if(lastupdated%skipSteps == 0) 
+	        {
+	        	lastupdated = 0;
+	        	SkipPointer skippointer = null;
+	        	if(skippointermap.containsKey(word)) 
+	        	{
+	                skippointer = skippointermap.get(word);
+	            }
+	            else 
+	            {
+	                skippointer = new SkipPointer();
+	                skippointermap.put(word, skippointer);
+	            }
+	        	skippointer.addPointer(docid, pl.getCount());
+	        }
+	        
+	        skipnumberlist.put(word, lastupdated + 1);
+		    posinpostinglist.put(word, pl.getCount());      
 		}
 		return;
 	}	
@@ -509,26 +507,27 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    	return posting;
 	    }
 	    SkipPointer.Pair pair = null;
-	    try {
-	    	 pair = pl.getSp().search(docid);
-		} catch (Exception e) {
-			// TODO: handle exception]
-			e.printStackTrace();
-		}
+//	    try {
+//	    	 pair = pl.getSp().search(docid);
+//		} catch (Exception e) {
+//			// TODO: handle exception]
+//			e.printStackTrace();
+//		}
 	    
 	    	
-	   	if(pair != null)
-	   	{
-	   		startpos = (int)pair.getPos();
-	    	offset = pair.getDocid();
-    		if(offset == -1 || offset > docid)
-	   		{
-	   			posting.clear();
-	    		startpos = getPosting(pl ,startpos, posting);
-    			offset = posting.get(0);
-	    	}
-		}
+//	   	if(pair != null)
+//	   	{
+//	   		startpos = (int)pair.getPos();
+//	    	offset = pair.getDocid();
+//    		if(offset == -1 || offset > docid)
+//	   		{
+//	   			posting.clear();
+//	    		startpos = getPosting(pl ,startpos, posting);
+//    			offset = posting.get(0);
+//	    	}
+//		}
 	    
+//	    
 	    if(offset > docid)
 	    {
 	    	return posting;
