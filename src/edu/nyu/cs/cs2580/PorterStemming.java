@@ -541,7 +541,7 @@ class PorterStemming {
     String lower = s.toLowerCase();
     add(lower.toCharArray(), lower.length());
     stem();
-    return this.toString();
+    return this.toString().trim();
     //System.out.println(this.toString());
   }
   
