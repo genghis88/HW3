@@ -574,6 +574,8 @@ class PorterStemming {
   public static void main(String[] args) {
     PorterStemming s = new PorterStemming();
     Stopwords stWords = new Stopwords();
+    //System.out.println(s.stem(args[0] + ' ' + args[1] + ' ' + args[2]));
+    //System.out.println(stWords.removeStopWords(args[0] + ' ' + args[1] + ' ' + args[2]));
     for (int i = 0; i < args.length; i++) {
       /*String lower = args[i].toLowerCase();
       s.add(lower.toCharArray(), lower.length());
@@ -583,8 +585,10 @@ class PorterStemming {
       System.out.println(string);
       string = stWords.removeStopWords(string);
       System.out.println(string);
-      string = stWords.removeStemmedStopWords(string);
-      System.out.println(string);
+      if(string != null) {
+        string = stWords.removeStemmedStopWords(string);
+        System.out.println(string);
+      }
     }
   }
 }
