@@ -20,6 +20,7 @@ public class QueryPhrase extends Query {
 	  {
 		  return;
 	  }
+	  PorterStemming stemmer = new PorterStemming();
 	  String[] tokens = _query.split("\"");
 	  for(int i = 0; i < tokens.length; i++)
 	  {
@@ -27,7 +28,14 @@ public class QueryPhrase extends Query {
 		  {
 			  Scanner sc = new Scanner(tokens[i]);
 			  while (sc.hasNext()) {
-				  _tokens.add(sc.next());
+			    String s = sc.next();
+			    s = Stopwords.removeStopWords(s);
+			    if(s != null) {
+			      String string = stemmer.stem(s);
+			      if(string != null) {
+			        _tokens.add(string);
+			      }
+			    }
 			  }
 			  sc.close();
 		  }

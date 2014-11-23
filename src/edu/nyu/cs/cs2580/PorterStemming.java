@@ -538,10 +538,14 @@ class PorterStemming {
   }
 
   public String stem(String s) {
-    String lower = s.toLowerCase();
+    String lower = s.trim().toLowerCase();
     add(lower.toCharArray(), lower.length());
     stem();
-    return this.toString().trim();
+    String d = this.toString().trim();
+    if(d.equals("")) {
+      return null;
+    }
+    return d;
     //System.out.println(this.toString());
   }
   
@@ -554,7 +558,7 @@ class PorterStemming {
   public void stem() {
     k = i - 1;
     if (k > 1) {
-      //step1();
+      step1();
       step2();
       step3();
       //step4();
@@ -574,6 +578,8 @@ class PorterStemming {
   public static void main(String[] args) {
     PorterStemming s = new PorterStemming();
     Stopwords stWords = new Stopwords();
+    //System.out.println(s.stem(args[0] + ' ' + args[1] + ' ' + args[2]));
+    //System.out.println(stWords.removeStopWords(args[0] + ' ' + args[1] + ' ' + args[2]));
     for (int i = 0; i < args.length; i++) {
       /*String lower = args[i].toLowerCase();
       s.add(lower.toCharArray(), lower.length());
@@ -583,8 +589,10 @@ class PorterStemming {
       System.out.println(string);
       string = stWords.removeStopWords(string);
       System.out.println(string);
-      string = stWords.removeStemmedStopWords(string);
-      System.out.println(string);
+      if(string != null) {
+        string = stWords.removeStemmedStopWords(string);
+        System.out.println(string);
+      }
     }
   }
 }

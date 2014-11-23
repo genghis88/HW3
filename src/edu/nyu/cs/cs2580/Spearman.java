@@ -105,7 +105,7 @@ public class Spearman {
       denominatorPart1 += (rankingOnPR.get(i) - z) * (rankingOnPR.get(i) - z);
       denominatorPart2 += (rankingOnNV.get(i) - z) * (rankingOnNV.get(i) - z);
     }
-    coefficient = numerator / (denominatorPart1 * denominatorPart2);
+    coefficient = numerator / Math.sqrt(denominatorPart1 * denominatorPart2);
     //System.out.println(numerator);
     //System.out.println(denominatorPart1);
     //System.out.println(denominatorPart2);
