@@ -20,7 +20,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.sun.org.apache.regexp.internal.RE;
 
 public class pageranktest {
 
@@ -310,12 +313,44 @@ public class pageranktest {
 //			System.out.println(pagerank.get(i));
 //		}
 		
-		Pattern p = Pattern.compile("0; url=+(.+).*");
-		Matcher m = p.matcher("<p>0; url=Symphony_No._5_(Beethoven).html<p>");
-		p = Pattern.compile("<p>+(.+).* <p>");
-		if (m.find()) {
-		    System.out.println(m.group(1));
-		}
+//		String line = "This order was placed for QT3000! OK?";
+//		Pattern pattern = Pattern.compile("(<head>)(\\d+)(.*)");
+//		Matcher matcher = pattern.matcher(line);
+//		while (matcher.find()) {
+//		    System.out.println("group 1: " + matcher.group(1));
+//		    System.out.println("group 2: " + matcher.group(2));
+//		    System.out.println("group 3: " + matcher.group(3));
+//		}
+//		File f = new File("data/wiki/Symphony_No._5_(Beethoven)");
+//		Scanner sc = new Scanner(f);
+//		Pattern headend = Pattern.compile("<meta http-equiv=\"refresh\"[ \t]*content=\".*url=([^\"]*).*");
+//		Matcher m;
+//		boolean flag = false;
+//		StringBuilder sb = new StringBuilder();
+//		while(sc.hasNext())
+//		{
+//			String l = sc.nextLine();
+//			
+//			if(l.matches("</head>"))
+//			{
+//				break;
+//			}
+//			if(flag)
+//			{
+//				sb.append(l);
+//			}
+//			if(l.matches("<head>"))
+//			{
+//				flag = true;
+//			}			
+//		}
+//		m = headend.matcher(sb.toString());
+//		if(m.find())
+//		{
+//			System.out.println(m.group(1));
+//		}
+		
+		//System.out.println(sb);
 		checkRedirectLink("Symphony_No._5_(Beethoven)");
 	}
 
@@ -334,13 +369,15 @@ public class pageranktest {
 		for (final File fileEntry : corpusDirectory.listFiles()) {
 		      if (!fileEntry.isDirectory()) {
 
-		        org.jsoup.nodes.Document doc = Jsoup.parse(fileEntry, "UTF-8");
+		    	Element doc = Jsoup.parse(fileEntry, "UTF-8").head();
 		        Elements metalinks = doc.select("meta[http-equiv=\"refresh\"]");
 		        if(metalinks.size() != 0)
 		        {
 		        	m = p.matcher(metalinks.attr("content"));
 		        	if (m.find()) {
+		        		System.out.println(fileEntry.getName());
 		    		    System.out.println(m.group(1));
+		    		    System.out.println("=========================================");
 		    		}
 		        }
 		      }
@@ -348,6 +385,48 @@ public class pageranktest {
 		
 		return null;
 	}
+	
+	public static String checkRedirectLink1(String outlinktitle) throws IOException
+	{
+		
+		Matcher m;
+		int i = 0;
+		final File corpusDirectory = new File("data/wiki/");
+		for (final File fileEntry : corpusDirectory.listFiles()) {
+			Scanner sc = new Scanner(fileEntry, "UTF8");
+			Pattern headend = Pattern.compile("<meta[ ]+http-equiv=\"refresh\"[ ]*content=\".*url=([^\"]*).*");
+			boolean flag = false;
+			StringBuilder sb = new StringBuilder();
+			while(sc.hasNext())
+			{
+				String l = sc.nextLine();
+				
+				if(l.matches("<head>"))
+				{
+					flag = true;
+				}
+				if(flag)
+				{
+					sb.append(l);
+				}
+				if(l.matches("</head>"))
+				{
+					break;
+				}			
+			}
+			m = headend.matcher(sb.toString());
+			if(m.find())
+			{
+				System.out.println(fileEntry.getName());
+				System.out.println(m.group(1));
+				System.out.println("=========================================");
+			}
+			sc.close();
+		}
+		
+		return null;
+	}
+	
 	
 	static Pattern p = Pattern.compile("0; url=+(.+).*");
 	static Matcher m;

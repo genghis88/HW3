@@ -39,9 +39,6 @@ public class Stopwords {
       if(isStopword(string)) continue; //remove stopwords
       result += (word+" ");
     }
-    if(result.equals("")) {
-      result = null;
-    }
     return result;
   }
   
@@ -53,9 +50,6 @@ public class Stopwords {
       if(isStemmedStopword(word)) continue;
       if(word.charAt(0) >= '0' && word.charAt(0) <= '9') continue; //remove numbers, "25th", etc
       result += (word+" ");
-    }
-    if(result.equals("")) {
-      result = null;
     }
     return result;
   }
