@@ -209,6 +209,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    ArrayList<LinkedHashMap<Integer,Integer>> loaded = (ArrayList<LinkedHashMap<Integer,Integer>>) reader.readObject();
 	    auxilliaryIndex.addAll(loaded);
 	    loaded.clear();
+	    reader.close();
 	  }
 	}
 	
