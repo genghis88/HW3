@@ -1,6 +1,7 @@
 package edu.nyu.cs.cs2580;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
 
@@ -49,5 +50,11 @@ public class IndexerInvertedDoconly extends Indexer {
   public int documentTermFrequency(String term, int docid) {
     SearchEngine.Check(false, "Not implemented!");
     return 0;
+  }
+
+  @Override
+  public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

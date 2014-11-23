@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -234,6 +235,12 @@ class IndexerFullScan extends Indexer implements Serializable {
       retval.add(_terms.get(idx));
     }
     return retval;
+  }
+
+  @Override
+  public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

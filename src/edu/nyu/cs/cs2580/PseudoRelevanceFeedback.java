@@ -5,34 +5,32 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
 public class PseudoRelevanceFeedback {
-  private Query query = null;
-  private int numDocs;
-  private int numTerms;
+  private Indexer indexer;
   
-  public PseudoRelevanceFeedback(Query q, int m, int k) {
-    query = q;
-    numDocs = m;
-    numTerms = k;
+  public PseudoRelevanceFeedback(Indexer indexer) {
+    this.indexer = indexer;
   }
   
-  public Map<String,Double> getExpandedTerms(Vector<ScoredDocument> scoredDocs) {
-    ArrayList allCounts = new ArrayList<HashMap<String,Integer>>();
+  public Map<String,Double> getExpandedTerms(Vector<ScoredDocument> scoredDocs, int numTerms) {
+    List<HashMap<String,Integer>> allCounts = new ArrayList<HashMap<String,Integer>>();
     Set<String> words = new HashSet<String>();
     int totalCount = 0;
     Map<String,Double> termScores = new HashMap<String,Double>();
     for(ScoredDocument scoredDoc:scoredDocs) {
       DocumentIndexed d = (DocumentIndexed) scoredDoc.get_doc();
-      HashMap<String,Integer> scores = d.getSnippet();
-      HashMap<String,Integer> scores1 = new HashMap<String,Integer>();
+      //-1 is passed to fetch frequencies of all terms
+      HashMap<String,Integer> scores = indexer.getTerms(-1,d._docid);
+      //HashMap<String,Integer> scores1 = new HashMap<String,Integer>();
       for(String word:scores.keySet()) {
         words.add(word);
-        scores1.put(word, scores.get(word));
+        //scores1.put(word, scores.get(word));
         totalCount += scores.get(word);
       }
       allCounts.add(scores);
@@ -40,7 +38,7 @@ public class PseudoRelevanceFeedback {
     for(String word:words) {
       int wordTotal = 0;
       for(int i=0;i<allCounts.size();i++) {
-        HashMap<String,Integer> scores = (HashMap) allCounts.get(i);
+        HashMap<String,Integer> scores = (HashMap<String,Integer>) allCounts.get(i);
         if(scores.containsKey(word)) {
           wordTotal += scores.get(word);
         }
