@@ -52,9 +52,9 @@ public class IndexerInvertedOccurrence extends Indexer {
     return 0;
   }
 
-  @Override
-  public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+@Override
+public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

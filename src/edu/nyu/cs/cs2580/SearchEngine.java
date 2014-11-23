@@ -81,6 +81,7 @@ public class SearchEngine {
     public int skips = 100;
     public int maxDocs = 1000;
     public String _aux_index_file = null;
+    
     /**
      * Constructor for options.
      * @param optionFile where all the options must reside
@@ -132,6 +133,7 @@ public class SearchEngine {
       _logMinerNvName = options.get("log_miner_file");
       _index_file = options.get("index_file");
       skips = Integer.parseInt(options.get("skip"));
+      
       maxDocs = Integer.parseInt(options.get("maxdocs"));
       _aux_index_file = options.get("aux_index_file");
     }
