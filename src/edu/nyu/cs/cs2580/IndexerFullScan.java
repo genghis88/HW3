@@ -237,10 +237,10 @@ class IndexerFullScan extends Indexer implements Serializable {
     return retval;
   }
 
-  @Override
-  public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+@Override
+public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 }
