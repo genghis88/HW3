@@ -471,6 +471,9 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
 	    	String text = Stopwords.removeStopWords(word);
 	        if(text != null) {
 	          text = stemmer.stem(text);
+	          if(text == null) {
+	            continue;
+	          }
 	          //take care of auxilliary structure HERE
 	          if(!allWords.containsKey(text)) {
 	            int stringId = allWords.size();

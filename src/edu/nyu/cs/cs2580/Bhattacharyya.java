@@ -56,6 +56,7 @@ public class Bhattacharyya {
           expandedTerms.add(expTerm);
           line = br.readLine();
         }
+        br.close();
         queryExpansions.put(query,expandedTerms);
         line1 = br1.readLine();
       }
