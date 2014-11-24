@@ -84,6 +84,7 @@ public class SearchEngine {
     public int numDivInMem = 4;
     public String indexdocsplitprefix = null;
     public int indexdocsplit = 1000000;
+    public int _iterations = 0;
     
     /**
      * Constructor for options.
@@ -142,6 +143,7 @@ public class SearchEngine {
       numDivInMem = Integer.parseInt(options.get("num_div_in_mem"));
       indexdocsplit = Integer.parseInt(options.get("indexdoclevelsplit"));
       indexdocsplitprefix = options.get("indexdocsplitprefix");
+      _iterations = Integer.parseInt(options.get("iterations"));
     }
   }
   public static Options OPTIONS = null;
