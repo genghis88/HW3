@@ -32,7 +32,7 @@ class QueryHandler implements HttpHandler {
     public String _query = "";
     // How many results to return
     private int _numResults = 10;
-    
+
     private int _numDocs = 10;
     private int _numTerms = 10;
 

@@ -2,6 +2,7 @@ package edu.nyu.cs.cs2580;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
 
@@ -52,9 +53,15 @@ public class IndexerInvertedOccurrence extends Indexer {
     return 0;
   }
 
-@Override
-public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public List<LinkedHashMap<String, Integer>> getTerms(int m, List<Integer> docIds) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public long getTotalPhrasesCorpus(int tokenwordcount) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 }

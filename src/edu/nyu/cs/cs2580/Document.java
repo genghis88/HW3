@@ -60,13 +60,15 @@ class Document implements Serializable {
   }
 
   public int _docid;
+  
+  private int _numwords;
 
   // Basic information for display
   private String _title = "";
   private String _url = "";
 
   // Basic information for ranking
-  private float _pageRank = 0.0f;
+  private double _pageRank = 0.0;
   private int _numViews = 0;
 
   public Document(int docid) {
@@ -89,11 +91,11 @@ class Document implements Serializable {
     this._url = url;
   }
 
-  public float getPageRank() {
+  public double getPageRank() {
     return _pageRank;
   }
 
-  public void setPageRank(float pageRank) {
+  public void setPageRank(double pageRank) {
     this._pageRank = pageRank;
   }
 
@@ -103,5 +105,13 @@ class Document implements Serializable {
 
   public void setNumViews(int numViews) {
     this._numViews = numViews;
+  }
+  
+  public int get_numwords() {
+    return _numwords;
+  }
+
+  public void set_numwords(int _numwords) {
+    this._numwords = _numwords;
   }
 }

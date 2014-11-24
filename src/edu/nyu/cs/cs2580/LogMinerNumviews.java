@@ -26,8 +26,8 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
 public class LogMinerNumviews extends LogMiner {
 
   private Map<String, Integer> linkdocid_map = null; 	
-  ArrayList<Double> numviews = null;
-  
+  //ArrayList<Double> numviews = null;
+  ArrayList<Integer> numviews = null;
   public LogMinerNumviews(Options options) {
     super(options);
   }
@@ -56,9 +56,11 @@ public class LogMinerNumviews extends LogMiner {
 	BufferedWriter bw = new BufferedWriter(fw);
 
 	//Map<String, Integer> map = LinkDocIDMapGenerator.get();
-	numviews = new ArrayList<Double>(linkdocid_map.size());
+	//numviews = new ArrayList<Double>(linkdocid_map.size());
+	numviews = new ArrayList<Integer>(linkdocid_map.size());
 	for (int i = 0; i < linkdocid_map.size(); i++) {
-		  numviews.add(0.0);
+		//numviews.add(0.0); 
+		numviews.add(0);
 	}
 	
 	File f = new File("data/log/20140601-160000.log");
@@ -101,7 +103,7 @@ public class LogMinerNumviews extends LogMiner {
 			{
 				int docid = linkdocid_map.get(link);
 				numviews.set(docid, numviews.get(docid) + numview);
-				totalnumviews += numview;
+				//totalnumviews += numview;
 			}
 		}
 		catch(Exception e)
@@ -121,11 +123,11 @@ public class LogMinerNumviews extends LogMiner {
 		
 	}
 	
-	for(int i=0 ; i < numviews.size() ; i++) 
-	{
-		  double numview = numviews.get(i) * totalnumviews;
-		  numviews.set(i, numview);
-	}
+//	for(int i=0 ; i < numviews.size() ; i++) 
+//	{
+//		  double numview = numviews.get(i) * totalnumviews;
+//		  numviews.set(i, numview);
+//	}
 	
 	bw.close();
 	sc.close();
@@ -178,8 +180,17 @@ public class LogMinerNumviews extends LogMiner {
 	{
 		String nvFile = _options._indexPrefix + _options._logMinerNvName;
 		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
-		numviews = (ArrayList<Double>) reader.readObject();
+		//numviews = (ArrayList<Double>) reader.readObject();
+		numviews = (ArrayList<Integer>) reader.readObject();
 		reader.close();
 	} 
+	
+//	public static ArrayList<Double> LoadNumView(String nvFile) throws FileNotFoundException, IOException, ClassNotFoundException
+//	{
+//		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
+//		ArrayList<Double> numviews = (ArrayList<Double>) reader.readObject();
+//		reader.close();
+//		return numviews;
+//	}
 
 }

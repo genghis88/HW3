@@ -1,6 +1,7 @@
 package edu.nyu.cs.cs2580;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,22 +24,27 @@ public class PseudoRelevanceFeedback {
     Set<String> words = new HashSet<String>();
     int totalCount = 0;
     Map<String,Double> termScores = new HashMap<String,Double>();
+    List<Integer> docIds = new ArrayList<Integer>();
+    
     for(ScoredDocument scoredDoc:scoredDocs) {
       DocumentIndexed d = (DocumentIndexed) scoredDoc.get_doc();
-      //-1 is passed to fetch frequencies of all terms
-      HashMap<String,Integer> scores = indexer.getTerms(-1,d._docid);
-      //HashMap<String,Integer> scores1 = new HashMap<String,Integer>();
+      docIds.add(d._docid);
+    }
+    
+    Collections.sort(docIds);
+    List<LinkedHashMap<String,Integer>> docScores = indexer.getTerms(-1,docIds);
+    for(LinkedHashMap<String,Integer> scores: docScores) {
       for(String word:scores.keySet()) {
         words.add(word);
-        //scores1.put(word, scores.get(word));
         totalCount += scores.get(word);
       }
-      allCounts.add(scores);
     }
+    
     for(String word:words) {
       int wordTotal = 0;
-      for(int i=0;i<allCounts.size();i++) {
-        HashMap<String,Integer> scores = (HashMap<String,Integer>) allCounts.get(i);
+      for(int i=0;i<docIds.size();i++) {
+        int docId = docIds.get(i);
+        HashMap<String,Integer> scores = (HashMap<String,Integer>) docScores.get(i);
         if(scores.containsKey(word)) {
           wordTotal += scores.get(word);
         }

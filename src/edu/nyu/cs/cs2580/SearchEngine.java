@@ -81,6 +81,9 @@ public class SearchEngine {
     public int skips = 100;
     public int maxDocs = 1000;
     public String _aux_index_file = null;
+    public int numDivInMem = 4;
+    public String indexdocsplitprefix = null;
+    public int indexdocsplit = 1000000;
     
     /**
      * Constructor for options.
@@ -136,6 +139,9 @@ public class SearchEngine {
       
       maxDocs = Integer.parseInt(options.get("maxdocs"));
       _aux_index_file = options.get("aux_index_file");
+      numDivInMem = Integer.parseInt(options.get("num_div_in_mem"));
+      indexdocsplit = Integer.parseInt(options.get("indexdoclevelsplit"));
+      indexdocsplitprefix = options.get("indexdocsplitprefix");
     }
   }
   public static Options OPTIONS = null;

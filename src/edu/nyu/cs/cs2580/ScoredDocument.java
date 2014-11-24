@@ -7,9 +7,9 @@ package edu.nyu.cs.cs2580;
  * @author congyu
  */
 public class ScoredDocument implements Comparable<ScoredDocument> {
-	private Document _doc;
+  private Document _doc;
   private double _score;
-	public Document get_doc() {
+  public Document get_doc() {
     return _doc;
   }
 
@@ -22,7 +22,9 @@ public class ScoredDocument implements Comparable<ScoredDocument> {
     StringBuffer buf = new StringBuffer();
     buf.append(_doc._docid).append("\t");
     buf.append(_doc.getTitle()).append("\t");
-    buf.append(_score);
+    buf.append(String.format("%.7f", _score)).append("\t");
+    buf.append(String.format("%.4f", _doc.getPageRank())).append("\t");
+    buf.append(_doc.getNumViews());
     return buf.toString();
   }
 

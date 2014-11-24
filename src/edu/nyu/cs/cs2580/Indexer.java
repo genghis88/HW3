@@ -2,6 +2,7 @@ package edu.nyu.cs.cs2580;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
 
@@ -37,6 +38,15 @@ public abstract class Indexer {
   // Subclasses should populate those fields properly.
   protected int _numDocs = 0;
   protected long _totalTermFrequency = 0;
+  protected long totalwordsincorpus = 0;
+
+  public long getTotalwordsincorpus() {
+    return totalwordsincorpus;
+  }
+
+  public void setTotalwordsincorpus(long totalwordsincorpus) {
+    this.totalwordsincorpus = totalwordsincorpus;
+  }
 
   // Provided for serialization.
   public Indexer() { }
@@ -132,11 +142,13 @@ public abstract class Indexer {
   // Number of times {@code term} appeared in the document {@code docid}.
   // *** @CS2580: Note the function signature change from url to docid. ***
   public abstract int documentTermFrequency(String term, int docid);
-  
-  
-  //Our (group specific) method for using the auxilliary index and returning top m terms from
+
+
+  //Our (group specific) methods for using the auxilliary index and returning top m terms from
   //the document with the given docid
-  public abstract LinkedHashMap<String,Integer> getTerms(int m,int docid);
+  public abstract List<LinkedHashMap<String,Integer>> getTerms(int m,List<Integer> docIds);
+  
+  public abstract long getTotalPhrasesCorpus(int tokenwordcount);
 
   /**
    * All Indexers must be created through this factory class based on the

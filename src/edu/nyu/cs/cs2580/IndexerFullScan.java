@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -46,7 +47,7 @@ class IndexerFullScan extends Indexer implements Serializable {
 
   // Provided for serialization
   public IndexerFullScan() { }
-  
+
   // The real constructor
   public IndexerFullScan(Options option) {
     super(option);
@@ -54,7 +55,7 @@ class IndexerFullScan extends Indexer implements Serializable {
   }
 
   ///// Construction related functions.
-  
+
   /**
    * Constructs the index from the corpus file.
    * 
@@ -76,7 +77,7 @@ class IndexerFullScan extends Indexer implements Serializable {
     }
     System.out.println(
         "Indexed " + Integer.toString(_numDocs) + " docs with " +
-        Long.toString(_totalTermFrequency) + " terms.");
+            Long.toString(_totalTermFrequency) + " terms.");
 
     String indexFile = _options._indexPrefix + "/corpus.idx";
     System.out.println("Store index to: " + indexFile);
@@ -119,7 +120,7 @@ class IndexerFullScan extends Indexer implements Serializable {
       _termDocFrequency.put(idx, _termDocFrequency.get(idx) + 1);
     }
   }
-  
+
   /**
    * Tokenize {@code content} into terms, translate terms into their integer
    * representation, store the integers in {@code tokens}.
@@ -144,7 +145,7 @@ class IndexerFullScan extends Indexer implements Serializable {
     }
     return;
   }
-  
+
   /**
    * Update the corpus statistics with {@code tokens}. Using {@code uniques} to
    * bridge between different token vectors.
@@ -237,10 +238,17 @@ class IndexerFullScan extends Indexer implements Serializable {
     return retval;
   }
 
-@Override
-public LinkedHashMap<String, Integer> getTerms(int m, int docid) {
-	// TODO Auto-generated method stub
-	return null;
-}
+
+  @Override
+  public List<LinkedHashMap<String, Integer>> getTerms(int m, List<Integer> docIds) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public long getTotalPhrasesCorpus(int tokenwordcount) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
 }
