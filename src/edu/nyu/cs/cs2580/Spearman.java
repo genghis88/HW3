@@ -13,32 +13,32 @@ public class Spearman {
   public static void main(String[] args) throws IOException, ClassNotFoundException {
     String pageRankFile = args[0];
     String numViewsFile = args[1];
-    /*ObjectInputStream reader = new ObjectInputStream(new FileInputStream(pageRankFile));
+    ObjectInputStream reader = new ObjectInputStream(new FileInputStream(pageRankFile));
     final ArrayList<Double> pageranks = (ArrayList<Double>) reader.readObject();
     reader.close();
     reader = new ObjectInputStream(new FileInputStream(numViewsFile));
-    final ArrayList<Double> numviews = (ArrayList<Double>) reader.readObject();
-    reader.close();*/
+    final ArrayList<Integer> numviews = (ArrayList<Integer>) reader.readObject();
+    reader.close();
     
-    final ArrayList<Double> pageranks = new ArrayList<Double>();
-    final ArrayList<Double> numviews = new ArrayList<Double>();
-    pageranks.add(0.2);
-    pageranks.add(0.4);
-    pageranks.add(0.3);
-    pageranks.add(0.5);
-    pageranks.add(0.1);
-    //pageranks.add(0.2);
-    pageranks.add(0.6);
-    numviews.add(0.1);
-    numviews.add(0.2);
-    numviews.add(0.3);
-    numviews.add(0.4);
-    numviews.add(0.5);
-    //numviews.add(0.1);
-    numviews.add(0.6);
+//    final ArrayList<Double> pageranks = new ArrayList<Double>();
+//    final ArrayList<Double> numviews = new ArrayList<Double>();
+//    pageranks.add(0.2);
+//    pageranks.add(0.4);
+//    pageranks.add(0.3);
+//    pageranks.add(0.5);
+//    pageranks.add(0.1);
+//    //pageranks.add(0.2);
+//    pageranks.add(0.6);
+//    numviews.add(0.1);
+//    numviews.add(0.2);
+//    numviews.add(0.3);
+//    numviews.add(0.4);
+//    numviews.add(0.5);
+//    //numviews.add(0.1);
+//    numviews.add(0.6);
     
-    System.out.println(pageranks);
-    System.out.println(numviews);
+//    System.out.println(pageranks);
+//    System.out.println(numviews);
     
     ArrayList<Integer> rankingOnPR = new ArrayList<Integer>();
     ArrayList<Integer> rankingOnNV = new ArrayList<Integer>();
@@ -72,7 +72,7 @@ public class Spearman {
       @Override
       public int compare(Integer arg0, Integer arg1) {
         // TODO Auto-generated method stub
-        double diff = numviews.get(arg0) - numviews.get(arg1);
+        int diff = numviews.get(arg0) - numviews.get(arg1);
         if(diff > 0) {
           return -1;
         }
@@ -86,8 +86,8 @@ public class Spearman {
     Collections.sort(rankingOnPR,cmp1);
     Collections.sort(rankingOnNV,cmp2);
     
-    System.out.println(rankingOnPR);
-    System.out.println(rankingOnNV);
+//    System.out.println(rankingOnPR);
+//    System.out.println(rankingOnNV);
     
     int n = pageranks.size();
     int s = 0;
@@ -108,8 +108,8 @@ public class Spearman {
       numbersOnNV.set(pos2, i+1);
     }
     
-    System.out.println(numbersOnPR);
-    System.out.println(numbersOnNV);
+//    System.out.println(numbersOnPR);
+//    System.out.println(numbersOnNV);
     
     double coefficient = 0.0;
     double numerator = 0.0;
