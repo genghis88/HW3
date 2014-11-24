@@ -1,0 +1,49 @@
+Spearmans co-effecient values for different values are as follows:
+
+Iteration: 1 Lambda: 0.1
+0.4105632379322937
+
+Iteration: 1 Lambda: 0.9 
+0.41056008841213854
+
+Iteration: 2 Lambda: 0.1
+0.40855043876467173
+
+Iteration: 2 Lambda: 0.9
+0.4191343356684222
+
+the best co-effecient value is for lambda = 0.9 with 2 iterations
+
+
+Additional options required:
+
+1. corpus_analyzer_file: pagerank.pr (base file name for page rank)
+2. lambda: 0.9 (lambda factor for the page rank)
+3. iterations: 2 (Number of iterations for page rank)
+4. maxdocs: 1000 (Maximum number of documents for which auxilliary index structure is stored in one file)
+5. aux_index_file: corpus_compressed_aux4 (Prefix for auxilliary index files)
+6. num_div_in_mem: 2 (Number of broken auxilliary index structures in memory at a time)
+
+the object file will look like pagerank.pr.2.9 with the above configuration
+
+4. log_file: data/log/20140601-160000.log
+5. log_miner_file: numviews.nv
+
+the object file will look like numviews.nv
+
+ 
+
+How to run?
+
+Compilation:
+1. Browse into the SearchEngine directory.
+2. javac -cp src/:lib/jsoup-1.8.1.jar src/edu/nyu/cs/cs2580/*.java
+
+Running:
+1. Modify the configuration file as desired.
+2. In the same directory (SearchEngine), type the following command to run in mining mode and calculate pagerank and numviews:
+java -cp src/:lib/jsoup-1.8.1.jar -Xmx512m edu.nyu.cs.cs2580.SearchEngine --mode=mining --options=conf/engine.conf
+3. In the same directory (SearchEngine), type the following command to construct index:
+java -cp src/:lib/jsoup-1.8.1.jar -Xmx512m edu.nyu.cs.cs2580.SearchEngine --mode=index --options=conf/engine.conf
+4. To run in server mode, change configuration file if required, and type the following:
+java -cp src/:lib/jsoup-1.8.1.jar -Xmx512m edu.nyu.cs.cs2580.SearchEngine --mode=serve --options=conf/engine.conf --port=25809
