@@ -20,7 +20,6 @@ public class PseudoRelevanceFeedback {
   }
   
   public Map<String,Double> getExpandedTerms(Vector<ScoredDocument> scoredDocs, int numTerms) {
-    List<HashMap<String,Integer>> allCounts = new ArrayList<HashMap<String,Integer>>();
     Set<String> words = new HashSet<String>();
     int totalCount = 0;
     Map<String,Double> termScores = new HashMap<String,Double>();

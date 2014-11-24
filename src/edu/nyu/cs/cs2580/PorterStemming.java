@@ -539,9 +539,10 @@ class PorterStemming {
 
   public String stem(String s) {
     String lower = s.trim().toLowerCase();
-    add(lower.toCharArray(), lower.length());
-    stem();
-    String d = this.toString().trim();
+    //add(lower.toCharArray(), lower.length());
+    //stem();
+    String d = lower.trim();
+    //String d = this.toString().trim();
     if(d.equals("")) {
       return null;
     }
@@ -558,9 +559,9 @@ class PorterStemming {
   public void stem() {
     k = i - 1;
     if (k > 1) {
-      step1();
-      step2();
-      step3();
+      //step1();
+      //step2();
+      //step3();
       //step4();
       //step5();
       //step6();

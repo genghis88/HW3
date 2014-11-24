@@ -36,6 +36,7 @@ public class Bhattacharyya {
   public static void main(String[] args) {
     System.out.println(args[0]);
     System.out.println(args[1]);
+    List<String> queries = new ArrayList<String>();
     try(BufferedReader br1 = new BufferedReader(new FileReader(args[0]))) {
       Writer writer = new BufferedWriter(new OutputStreamWriter(
           new FileOutputStream(args[1]), "utf-8"));
@@ -48,6 +49,7 @@ public class Bhattacharyya {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line = br.readLine();
         List<ExpandedTerm> expandedTerms = new ArrayList<ExpandedTerm>();
+        queries.add(query);
         while (line != null) {
           String[] lineComps = line.split("\t");
           ExpandedTerm expTerm = new ExpandedTerm();
@@ -60,7 +62,7 @@ public class Bhattacharyya {
         queryExpansions.put(query,expandedTerms);
         line1 = br1.readLine();
       }
-      List<String> queries = new ArrayList(queryExpansions.keySet());
+      
       for(int i=0;i<queries.size();i++) {
         for(int j=i+1;j<queries.size();j++) {
           double coeff = 0.0;

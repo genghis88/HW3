@@ -14,9 +14,9 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
 public class RankerComprehensive extends Ranker
 {
   private double lambda = 0.75;
-  private double weight_ranker = 0.04;
-  private double weight_pagerank = 0.1;
-  private double weight_numviews = 0.1;
+  private double weight_ranker = 0.9998;
+  private double weight_pagerank = 0.00019;
+  private double weight_numviews = 0.00001;
   public RankerComprehensive(Options options, CgiArguments arguments,
       Indexer indexer) {
     super(options, arguments, indexer);
@@ -81,7 +81,7 @@ public class RankerComprehensive extends Ranker
 		    	totalscore += Math.log(1 + (1.0 - lambda) * scorecomp1 + lambda * scorecomp2);
 		    }
 		    totalscore *= weight_ranker;
-		    double pagerankval=doc.getPageRank();///_indexer.totalpagerank;
+		    double pagerankval=doc.getPageRank()/(_indexer.totalpagerank/10213);
 		    double numviewval=doc.getNumViews()/(_indexer.totalnumviews/10213);
 		    totalscore += pagerankval*weight_pagerank + numviewval*weight_numviews;
 		    rankQueue.add(new ScoredDocument(doc, totalscore));
