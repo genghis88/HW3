@@ -134,7 +134,7 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
     {
     	pagerank.add(1.0);
     }
-    calculatePageRank(_numdocs, 2);
+    calculatePageRank(_numdocs);
     storePageRank();
     return;
   }
@@ -262,10 +262,13 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 //	}
 	
 	@SuppressWarnings("unchecked")
-	public void calculatePageRank(int noofdocs, int iter) throws FileNotFoundException
+	public void calculatePageRank(int noofdocs) throws FileNotFoundException
 	{
 		double lambda = _options._lambda;
+		int iter = _options._iterations;
+		
 		double gfactor = (1.0-lambda)/noofdocs;
+		
 		for(int x = 0; x < iter ; x++)
 		{	
 			ArrayList<Double> newpagerank = new ArrayList<Double>();
@@ -316,7 +319,8 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 			f.mkdir();
 		
 		System.out.println("Store Page Rank to: " + _options._indexPrefix);
-		String prFile = _options._indexPrefix + _options._corpusAnalyzerPrName;
+		
+		String prFile = _options._indexPrefix + _options._corpusAnalyzerPrName + (_options._lambda+_options._iterations);
 		
 		ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(prFile));
 		writer.writeObject(this.pagerank);
@@ -327,7 +331,7 @@ public class CorpusAnalyzerPagerank extends CorpusAnalyzer {
 	@SuppressWarnings("unchecked")
 	public void retrievePageRank() throws FileNotFoundException, IOException, ClassNotFoundException
 	{
-		String prFile = _options._indexPrefix + _options._corpusAnalyzerPrName;
+		String prFile = _options._indexPrefix + _options._corpusAnalyzerPrName + (_options._lambda+_options._iterations);
 		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(prFile));
 		pagerank = (ArrayList<Double>) reader.readObject();
 		reader.close();
