@@ -85,14 +85,14 @@ public abstract class CorpusAnalyzer {
   protected static boolean isValidDocument(File file) {
     return !file.getName().startsWith(".");  // Remove hidden files.
   }
-  
+
   // Options to configure each concrete CorpusAnalyzer.
   protected Options _options = null;
-  
+
   public CorpusAnalyzer(Options options) {
     _options = options;
   }
-  
+
   // Processes the corpus and prepare necessary internal data structure for the
   // compute function below.
   public abstract void prepare() throws IOException;

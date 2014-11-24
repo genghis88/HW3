@@ -1,0 +1,6 @@
+android	mysore	0.0
+android	karnataka	0.4381116993548995
+android	amazon	0.0
+mysore	karnataka	0.1963193272348757
+mysore	amazon	0.0
+karnataka	amazon	0.0

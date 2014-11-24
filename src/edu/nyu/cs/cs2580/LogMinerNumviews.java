@@ -25,7 +25,7 @@ import edu.nyu.cs.cs2580.SearchEngine.Options;
  */
 public class LogMinerNumviews extends LogMiner {
 
-  private Map<String, Integer> linkdocid_map = null; 	
+  private Map<String, Integer> linkdocid_map = null;  
   //ArrayList<Double> numviews = null;
   ArrayList<Integer> numviews = null;
   public LogMinerNumviews(Options options) {
@@ -48,90 +48,90 @@ public class LogMinerNumviews extends LogMiner {
   @Override
   public void compute() throws IOException {
     System.out.println("Computing using " + this.getClass().getName());
-    
-    linkdocid_map = LinkDocIDMapGenerator.get();
-	File file = new File("data/index/errorlogs.txt");
-	FileWriter fw = new FileWriter(file.getAbsoluteFile());
-	
-	BufferedWriter bw = new BufferedWriter(fw);
 
-	//Map<String, Integer> map = LinkDocIDMapGenerator.get();
-	//numviews = new ArrayList<Double>(linkdocid_map.size());
-	numviews = new ArrayList<Integer>(linkdocid_map.size());
-	for (int i = 0; i < linkdocid_map.size(); i++) {
-		//numviews.add(0.0); 
-		numviews.add(0);
-	}
-	
-	File f = new File("data/log/20140601-160000.log");
-	Scanner sc = new Scanner(f);
-	
-	long totalnumviews = 0;
-	
-	while(sc.hasNext())
-	{
-		String line[] = sc.nextLine().split(" ");
-		String link  = null;
-		try{
-				link = decode(line[1]).trim();			
-		}
-		catch(Exception e)
-		{
-			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
-			
-			bw.write(Arrays.toString(line));
-			bw.newLine();
-			bw.write("==========Decode error trace===========");
-			bw.newLine();
-			bw.write(errors.toString());
-			bw.newLine();
-			bw.write("=====================");
-			bw.newLine();
-			bw.newLine();
-			
-		}
-		if(link == null)
-			continue;
-		
-		int numview = 0;
-		try
-		{
-			numview = Integer.parseInt(line[2]);
-			
-			if(linkdocid_map.containsKey(link))
-			{
-				int docid = linkdocid_map.get(link);
-				numviews.set(docid, numviews.get(docid) + numview);
-				//totalnumviews += numview;
-			}
-		}
-		catch(Exception e)
-		{
-			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
-			bw.write(Arrays.toString(line));
-			bw.newLine();
-			bw.write("==========parse error trace===========");
-			bw.newLine();
-			bw.write(errors.toString());
-			bw.newLine();
-			bw.write("=====================");
-			bw.newLine();
-			bw.newLine();
-		}
-		
-	}
-	
-//	for(int i=0 ; i < numviews.size() ; i++) 
-//	{
-//		  double numview = numviews.get(i) * totalnumviews;
-//		  numviews.set(i, numview);
-//	}
-	
-	bw.close();
-	sc.close();
-	storeNumView();	
+    linkdocid_map = LinkDocIDMapGenerator.get();
+    File file = new File("data/index/errorlogs.txt");
+    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+
+    BufferedWriter bw = new BufferedWriter(fw);
+
+    //Map<String, Integer> map = LinkDocIDMapGenerator.get();
+    //numviews = new ArrayList<Double>(linkdocid_map.size());
+    numviews = new ArrayList<Integer>(linkdocid_map.size());
+    for (int i = 0; i < linkdocid_map.size(); i++) {
+      //numviews.add(0.0); 
+      numviews.add(0);
+    }
+
+    File f = new File("data/log/20140601-160000.log");
+    Scanner sc = new Scanner(f);
+
+    long totalnumviews = 0;
+
+    while(sc.hasNext())
+    {
+      String line[] = sc.nextLine().split(" ");
+      String link  = null;
+      try{
+        link = decode(line[1]).trim();      
+      }
+      catch(Exception e)
+      {
+        StringWriter errors = new StringWriter();
+        e.printStackTrace(new PrintWriter(errors));
+
+        bw.write(Arrays.toString(line));
+        bw.newLine();
+        bw.write("==========Decode error trace===========");
+        bw.newLine();
+        bw.write(errors.toString());
+        bw.newLine();
+        bw.write("=====================");
+        bw.newLine();
+        bw.newLine();
+
+      }
+      if(link == null)
+        continue;
+
+      int numview = 0;
+      try
+      {
+        numview = Integer.parseInt(line[2]);
+
+        if(linkdocid_map.containsKey(link))
+        {
+          int docid = linkdocid_map.get(link);
+          numviews.set(docid, numviews.get(docid) + numview);
+          //totalnumviews += numview;
+        }
+      }
+      catch(Exception e)
+      {
+        StringWriter errors = new StringWriter();
+        e.printStackTrace(new PrintWriter(errors));
+        bw.write(Arrays.toString(line));
+        bw.newLine();
+        bw.write("==========parse error trace===========");
+        bw.newLine();
+        bw.write(errors.toString());
+        bw.newLine();
+        bw.write("=====================");
+        bw.newLine();
+        bw.newLine();
+      }
+
+    }
+
+    //  for(int i=0 ; i < numviews.size() ; i++) 
+    //  {
+    //      double numview = numviews.get(i) * totalnumviews;
+    //      numviews.set(i, numview);
+    //  }
+
+    bw.close();
+    sc.close();
+    storeNumView(); 
     return;
   }
 
@@ -141,56 +141,56 @@ public class LogMinerNumviews extends LogMiner {
    * 
    * @throws IOException
    */
-  	@Override
-  	public Object load() throws IOException {
-  		System.out.println("Loading using " + this.getClass().getName());
-  		try {
-			retrieveNumView();
-			return numviews;
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-  		return null;
-  	}
-  
-  
-  	public static String decode(String s) throws UnsupportedEncodingException
-  	{
-  		return URLDecoder.decode(s, "UTF-8");		
-  	}
-  
-  	public void storeNumView() throws FileNotFoundException, IOException
-  	{
-  		File f = new File(_options._indexPrefix);
-		if(!f.isDirectory())
-			f.mkdir();
-		
-		System.out.println("Store Num Views to: " + _options._indexPrefix);
-		String nvFile = _options._indexPrefix + _options._logMinerNvName;
-		
-		ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(nvFile));
-		writer.writeObject(this.numviews);
-		writer.close();
-		System.out.println("Storing Num Views complete");
-  	}
+  @Override
+  public Object load() throws IOException {
+    System.out.println("Loading using " + this.getClass().getName());
+    try {
+      retrieveNumView();
+      return numviews;
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+  }
 
-	@SuppressWarnings("unchecked")
-	public void retrieveNumView() throws FileNotFoundException, IOException, ClassNotFoundException
-	{
-		String nvFile = _options._indexPrefix + _options._logMinerNvName;
-		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
-		//numviews = (ArrayList<Double>) reader.readObject();
-		numviews = (ArrayList<Integer>) reader.readObject();
-		reader.close();
-	} 
-	
-//	public static ArrayList<Double> LoadNumView(String nvFile) throws FileNotFoundException, IOException, ClassNotFoundException
-//	{
-//		ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
-//		ArrayList<Double> numviews = (ArrayList<Double>) reader.readObject();
-//		reader.close();
-//		return numviews;
-//	}
+
+  public static String decode(String s) throws UnsupportedEncodingException
+  {
+    return URLDecoder.decode(s, "UTF-8");   
+  }
+
+  public void storeNumView() throws FileNotFoundException, IOException
+  {
+    File f = new File(_options._indexPrefix);
+    if(!f.isDirectory())
+      f.mkdir();
+
+    System.out.println("Store Num Views to: " + _options._indexPrefix);
+    String nvFile = _options._indexPrefix + _options._logMinerNvName;
+
+    ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(nvFile));
+    writer.writeObject(this.numviews);
+    writer.close();
+    System.out.println("Storing Num Views complete");
+  }
+
+  @SuppressWarnings("unchecked")
+  public void retrieveNumView() throws FileNotFoundException, IOException, ClassNotFoundException
+  {
+    String nvFile = _options._indexPrefix + _options._logMinerNvName;
+    ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
+    //numviews = (ArrayList<Double>) reader.readObject();
+    numviews = (ArrayList<Integer>) reader.readObject();
+    reader.close();
+  } 
+
+  //  public static ArrayList<Double> LoadNumView(String nvFile) throws FileNotFoundException, IOException, ClassNotFoundException
+  //  {
+  //    ObjectInputStream reader = new ObjectInputStream(new FileInputStream(nvFile));
+  //    ArrayList<Double> numviews = (ArrayList<Double>) reader.readObject();
+  //    reader.close();
+  //    return numviews;
+  //  }
 
 }

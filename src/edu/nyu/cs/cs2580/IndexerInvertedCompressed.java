@@ -634,11 +634,11 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
             docIdIndex);
 
 
-        if(docid % 1000 == 0)
+        /*if(docid % 1000 == 0)
         {
           System.out.println(docid);
           //System.gc();
-        }
+        }*/
 
         if((docid + 1) % maxDocs == 0) {
           //System.out.println("Storing index for doc id " + (docIdIndex * maxDocs) + " to " + docid);

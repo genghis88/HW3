@@ -1,0 +1,15 @@
+mumbai	google	0.0
+mumbai	bing	0.0
+mumbai	microsoft	0.0
+mumbai	yahoo	0.0
+mumbai	web%20search	0.0
+google	bing	0.0
+google	microsoft	0.0
+google	yahoo	0.0
+google	web%20search	0.0
+bing	microsoft	0.0
+bing	yahoo	0.0
+bing	web%20search	0.0
+microsoft	yahoo	0.0
+microsoft	web%20search	0.0
+yahoo	web%20search	0.0

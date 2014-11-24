@@ -30,7 +30,7 @@ corpus_analyzer_type: pagerank
   
 corpus_analyzer_file: pagerank.pr
 lambda: 0.9
-iterations: 2
+iterations: 1
 
 ## Implement the NumViews log miner for HW3.
 log_miner_type: numviews
@@ -44,7 +44,7 @@ skip: 250
 maxdocs: 1000
 
 aux_index_file: corpus_compressed_aux4
-num_div_in_mem: 10
+num_div_in_mem: 5
 
 indexdocsplitprefix: pindex_
 indexdoclevelsplit: 5500
