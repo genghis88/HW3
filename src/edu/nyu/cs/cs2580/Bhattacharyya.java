@@ -52,9 +52,14 @@ public class Bhattacharyya {
         queries.add(query);
         while (line != null) {
           String[] lineComps = line.split("\t");
+          if(lineComps.length < 2) {
+            break;
+          }
           ExpandedTerm expTerm = new ExpandedTerm();
           expTerm.setTerm(lineComps[0]);
-          expTerm.setProbability(Double.parseDouble(lineComps[1]));
+          //System.out.println(lineComps[1]);
+          double prob = Double.parseDouble(lineComps[1]);
+          expTerm.setProbability(prob);
           expandedTerms.add(expTerm);
           line = br.readLine();
         }
