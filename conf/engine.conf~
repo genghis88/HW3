@@ -47,6 +47,3 @@ maxdocs: 1000
 
 aux_index_file: corpus_compressed_aux4
 num_div_in_mem: 2
-
-indexdocsplitprefix: pindex_
-indexdoclevelsplit: 5500
