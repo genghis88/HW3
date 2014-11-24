@@ -84,7 +84,7 @@ public class PseudoRelevanceFeedback {
     }
     for(String word:restrictedTermSortedMap.keySet()) {
       restrictedTermSortedMap.put(word, restrictedTermSortedMap.get(word) / total);
-      System.out.println(word+"\t"+restrictedTermSortedMap.get(word));
+      //System.out.println(word+"\t"+restrictedTermSortedMap.get(word));
     }
     return restrictedTermSortedMap;
   }

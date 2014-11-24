@@ -310,7 +310,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
   public void loadAuxilliaryIndex() throws IOException, ClassNotFoundException {
     String auxilliaryIndexFilePrefix = _options._indexPrefix + _options._aux_index_file;
     for(int i=0;i<numIndexDivInMemory;i++) {
-      System.out.println("Loading file " + auxilliaryIndexFilePrefix+'_'+i);
+      //System.out.println("Loading file " + auxilliaryIndexFilePrefix+'_'+i);
       ObjectInputStream reader = new ObjectInputStream(new FileInputStream(auxilliaryIndexFilePrefix+"_"+i));
       HashMap<Integer,LinkedHashMap<Integer,Integer>> loaded = (HashMap<Integer,LinkedHashMap<Integer,Integer>>) reader.readObject();
       HashMap<Integer,LinkedHashMap<Integer,Integer>> partOfIndex = new HashMap<Integer,LinkedHashMap<Integer,Integer>>(loaded);
@@ -641,7 +641,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
         }
 
         if((docid + 1) % maxDocs == 0) {
-          System.out.println("Storing index for doc id " + (docIdIndex * maxDocs) + " to " + docid);
+          //System.out.println("Storing index for doc id " + (docIdIndex * maxDocs) + " to " + docid);
           String auxilliaryIndexFile = auxilliaryIndexFilePrefix + "_" + docIdIndex;
           ObjectOutputStream writer = new ObjectOutputStream(
               new FileOutputStream(auxilliaryIndexFile));
@@ -657,8 +657,8 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
       }
     }
     if(auxilliaryIndex.size() > 0) {
-      System.out.println("Storing index for doc id " 
-          + (docIdIndex * maxDocs) + " to " + _documents.size());
+      //System.out.println("Storing index for doc id " 
+      //    + (docIdIndex * maxDocs) + " to " + _documents.size());
       String auxilliaryIndexFile = auxilliaryIndexFilePrefix + "_" + docIdIndex;
       ObjectOutputStream writer = new ObjectOutputStream(
           new FileOutputStream(auxilliaryIndexFile));
@@ -674,7 +674,7 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
   
   private void flushIndex(int id) throws FileNotFoundException, IOException
   {
-    System.out.println("index " + id);
+    //System.out.println("index " + id);
     String partialindexfile = _options._indexPrefix + _options.indexdocsplitprefix + id;  
     ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(partialindexfile));
     writer.writeObject(this.index);
