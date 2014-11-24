@@ -39,7 +39,8 @@ public abstract class Indexer {
   protected int _numDocs = 0;
   protected long _totalTermFrequency = 0;
   protected long totalwordsincorpus = 0;
-
+  protected double totalpagerank = 0.0;
+  protected long totalnumviews = 0;
   public long getTotalwordsincorpus() {
     return totalwordsincorpus;
   }

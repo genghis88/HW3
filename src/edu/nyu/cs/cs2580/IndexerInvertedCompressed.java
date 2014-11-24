@@ -186,6 +186,10 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
     bw.newLine();
     bw.write(Integer.toString(_numDocs));
     bw.newLine();
+    bw.write(Double.toString(totalpagerank));
+    bw.newLine();
+    bw.write(Long.toString(totalnumviews));
+    bw.newLine();
     bw.close();
 
     //System.gc();
@@ -244,6 +248,8 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
     Scanner sc = new Scanner(new File(_options._indexPrefix + "totalwordsincorpus.long"));
     this.totalwordsincorpus = sc.nextLong();
     this._numDocs = sc.nextInt();
+    this.totalpagerank = sc.nextDouble();
+    this.totalnumviews = sc.nextLong();
     sc.close();
 
     merge();
@@ -684,7 +690,9 @@ public class IndexerInvertedCompressed extends Indexer implements Serializable{
     doc.setUrl(url);      
     
     doc.setPageRank(pagerank.get(docid));
+    totalpagerank += pagerank.get(docid);
     doc.setNumViews(numviews.get(docid));
+    totalnumviews += numviews.get(docid);
     
     _documents.add(doc);      
     ++_numDocs;
